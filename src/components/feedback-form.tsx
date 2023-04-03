@@ -1,16 +1,10 @@
 import React  from "react";
 
 type Props = {
-  session: {
-    id: string;
-    title: string;
-  };
   onSubmit: (feedback: string) => void;
 };
 
 export default function FeedbackForm(props: Props) {
-  const { session } = props;
-
   function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.target;
@@ -22,8 +16,6 @@ export default function FeedbackForm(props: Props) {
 
   return (
     <div>
-      <h1>Feedback for {session.title}</h1>
-
       <form className="feedback-form" onSubmit={onFormSubmit}>
         <div className="field">
           <label className="label" htmlFor="feedback">

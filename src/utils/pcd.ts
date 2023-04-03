@@ -44,7 +44,13 @@ function requestZuzaluMembershipUrl(
 }
 
 // Wrap the popup/redirect to PCD as a Promise
-export async function generateProofForFeedback(feedback: string, sessionId: string) {
+export async function generateProofForFeedback(
+  feedback: string,
+  sessionId: string
+): Promise<{
+  nullifierHash: string;
+  proof: string[];
+}> {
   // Construct the URL to the PCD
   const passportProofUrl = requestZuzaluMembershipUrl(
     process.env.NEXT_PUBLIC_PASSPORT_URL as string,
@@ -71,7 +77,7 @@ export async function generateProofForFeedback(feedback: string, sessionId: stri
           if (pcdResponse.type !== pcdType) return;
 
           const pcdData = JSON.parse(pcdResponse.pcd);
-          const { proof } = pcdData.proof;
+          const proof = pcdData.proof.proof;
 
           resolve(proof);
         } catch (error) {
