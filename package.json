@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "PORT=4000 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .js,.ts",
@@ -16,6 +16,7 @@
     "@semaphore-protocol/proof": "^3.5.0",
     "@supabase/supabase-js": "^2.13.1",
     "bulma": "^0.9.4",
+    "ethers": "^6.2.3",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",

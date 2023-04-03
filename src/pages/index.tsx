@@ -1,16 +1,3 @@
-import Head from "next/head";
-
 export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>Zuzalu Feedback</title>
-        <meta name="description" content="Anonymous feedback app for Zuzalu.city" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <main>
-        <div>Zuzalu Feedback</div>
-      </main>
-    </>
-  );
+  return <div />;
 }
