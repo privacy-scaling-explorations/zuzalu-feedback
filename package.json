@@ -12,8 +12,10 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "bulma": "^0.9.4",
+    "@ethersproject/hash": "^5.7.0",
+    "@semaphore-protocol/proof": "^3.5.0",
     "@supabase/supabase-js": "^2.13.1",
+    "bulma": "^0.9.4",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
