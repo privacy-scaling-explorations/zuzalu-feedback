@@ -19,10 +19,10 @@ export default function NewFeedbackPage() {
         sessionId,
         feedback,
         proof: fullProof.proof,
-        nullifierHash: fullProof.nullifierHash,
-      })
+        nullifierHash: fullProof.nullifierHash
+      });
 
-      alert("Your feedback has been submitted. Thank you!")
+      alert("Your feedback has been submitted. Thank you!");
     } catch (error) {
       console.error(error);
       alert("Unexpected error occurred. Please try again later.");

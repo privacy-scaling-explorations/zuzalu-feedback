@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 
 type Props = {
   onSubmit: (feedback: string) => void;
