@@ -3,6 +3,7 @@ import supabase from "@/lib/supabaseClient";
 import { Feedback } from "@/types";
 import { verifyProof } from "@semaphore-protocol/proof";
 import { id as hash } from "@ethersproject/hash";
+import { Group } from "@semaphore-protocol/group";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<string[]>) {
   switch (req.method) {
@@ -22,8 +23,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     case "POST": {
       const { sessionId, feedback, nullifierHash, proof } = req.body;
 
-      // TODO: Fetch Merkle root from PCD.
-      const merkleTreeRoot = BigInt(0);
+      const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_URL as string);
+      const { id, depth, members } = await response.json();
+
+      const group = new Group(id, depth);
+
+      group.addMembers(members);
+
+      const merkleTreeRoot = BigInt(group.root);
       const signal = BigInt(hash(feedback));
 
       await verifyProof({ merkleTreeRoot, nullifierHash, externalNullifier: sessionId, signal, proof }, 20);
