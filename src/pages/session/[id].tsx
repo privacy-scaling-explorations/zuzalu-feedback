@@ -15,7 +15,7 @@ export default function Session({ feedback }: any) {
 
       {feedback.map((f: any) => (
         <div key={f} className="feedback-item">
-          <div className="feedback-item-date">{f.created_at}</div>
+          <div className="feedback-item-date">{new Date(f.created_at).toLocaleString()}</div>
           <div className="feedback-item-message">{f.message}</div>
         </div>
       ))}
