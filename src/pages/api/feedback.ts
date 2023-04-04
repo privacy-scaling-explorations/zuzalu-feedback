@@ -5,7 +5,7 @@ import { verifyProof } from "@semaphore-protocol/proof";
 import { id as hash } from "@ethersproject/hash";
 import { Group } from "@semaphore-protocol/group";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<string[]>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Feedback[]>) {
   switch (req.method) {
     case "GET": {
       const { sessionId } = req.query;
@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         throw new Error("DB data does not exist");
       }
 
-      res.status(200).json(data.map(({ message }: any) => message));
+      res.status(200).json(data as Feedback[]);
 
       break;
     }
