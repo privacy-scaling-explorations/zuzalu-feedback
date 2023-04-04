@@ -12,11 +12,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
       let { data } = await supabase.from("feedback").select().eq("session_id", sessionId);
 
-      if (!data || data.length === 0) {
+      if (!data || !Array.isArray(data)) {
         throw new Error("DB data does not exist");
       }
 
-      res.status(200).json(data?.map(({ message }: any) => message));
+      res.status(200).json(data.map(({ message }: any) => message));
 
       break;
     }
