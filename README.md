@@ -1,6 +1,6 @@
 # Zuzalu Feedback App
 
-This is a web app for anonymously collecting feedback from Zuzalu.city attendees about their experience with various sessions.
+This is a web app for anonymously collecting feedback from [https://zuzalu.city/](Zuzalu.city) attendees about their experience with various sessions.
 
 Users can prove their membership using [PCD Zupass](https://github.com/proofcarryingdata/zupass) and leave feedback without revealing their identity.
 
