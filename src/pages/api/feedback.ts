@@ -23,6 +23,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     case "POST": {
       const { sessionId, feedback, nullifierHash, proof } = req.body;
 
+      let { data } = await supabase.from("feedback").select().eq("nullifier", nullifierHash);
+
+      if (data && data.length > 0) {
+        throw new Error("Nullifier has already been used");
+      }
+
       const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_URL as string);
       const { id, depth, members } = await response.json();
 
@@ -37,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
       const { status } = await supabase
         .from("feedback")
-        .insert({ message: feedback, session_id: sessionId, nullifier: nullifierHash.toString() } as Feedback);
+        .insert({ message: feedback, session_id: sessionId, nullifier: nullifierHash } as Feedback);
 
       res.status(status).end();
 
