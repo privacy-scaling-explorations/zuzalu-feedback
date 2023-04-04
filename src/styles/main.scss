@@ -40,3 +40,20 @@ main {
     height: 300px;
   }
 }
+
+.feedback-item {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+}
+
+.feedback-item-date {
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.feedback-item-message {
+  font-size: 1.1rem;
+}

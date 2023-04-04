@@ -1,11 +1,28 @@
 import supabase from "@/lib/supabaseClient";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 export default function Session({ feedback }: any) {
-  return <ul>{feedback && feedback.map((f: string, i: number) => <li key={i}>{f}</li>)}</ul>;
+  const router = useRouter();
+  const sessionId = router.query.id as string;
+
+  return (
+    <div className="container mt-5">
+      <h1 className="title">Feedback for {sessionId}</h1>
+
+      {feedback.length === 0 && <p>No feedback has been submitted for this session yet.</p>}
+
+      {feedback.map((f: any) => (
+        <div key={f} className="feedback-item">
+          <div className="feedback-item-date">{new Date().toLocaleDateString("en-US")}</div>
+          <div className="feedback-item-message">{f.message}</div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export const getServerSideProps: GetServerSideProps<{ feedback: string[] }> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<{ feedback: any[] }> = async ({ params }) => {
   if (!params || !params.id) {
     throw new Error("Route parameters have not been defined properly");
   }
@@ -18,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<{ feedback: string[] }> = as
 
   return {
     props: {
-      feedback: data?.map(({ message }: any) => message)
+      feedback: data ?? []
     }
   };
 };
