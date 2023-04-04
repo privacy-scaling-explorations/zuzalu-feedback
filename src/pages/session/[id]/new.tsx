@@ -30,19 +30,19 @@ export default function NewFeedbackPage() {
   }
 
   return (
-    <>
-      <Head>
-        <title>Zuzalu Feedback</title>
-        <meta name="description" content="Anonymous feedback app for Zuzalu.city" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <main>
-        <div>Zuzalu Feedback</div>
+    <div className="content">
+      <h1 className="title">Feedback for {sessionId?.slice(0, 4)}</h1>
 
-        <h1>Feedback for {sessionId}</h1>
+      <p>
+        You can leave feedback for the event {sessionId} anonymously using the below form. 
+      </p>
+      <p>
+        You will be asked to prove you attendance to the event anonymously using the ZuPass before your feedback is accepted.
+      </p>
 
-        <FeedbackForm onSubmit={onFeedbackSubmit} />
-      </main>
-    </>
+      <hr />
+
+      <FeedbackForm onSubmit={onFeedbackSubmit} />
+    </div>
   );
 }

@@ -24,7 +24,7 @@ export default function FeedbackForm(props: Props) {
           <textarea className="input" rows={100} id="feedback" name="feedback" />
         </div>
 
-        <button type="submit">Submit</button>
+        <button className="button is-normal" type="submit">Submit</button>
       </form>
     </div>
   );
