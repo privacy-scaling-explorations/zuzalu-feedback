@@ -5,12 +5,11 @@ type Props = {
 };
 
 export default function FeedbackForm(props: Props) {
+  const [feedback, setFeedback] = React.useState<string>("");
+
   async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-
-    const formData = new FormData(form as HTMLFormElement);
-    const feedback = formData.get("feedback") as string;
 
     // Disable the textarea while we're submitting the feedback
     const textarea = form.querySelector("textarea") as HTMLTextAreaElement;
@@ -30,10 +29,19 @@ export default function FeedbackForm(props: Props) {
           <label className="label" htmlFor="feedback">
             Feedback
           </label>
-          <textarea className="input" rows={100} id="feedback" name="feedback" />
+          <textarea
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            className="input"
+            rows={100}
+            id="feedback"
+            name="feedback"
+          />
         </div>
 
-        <button className="button is-normal" type="submit">Submit</button>
+        <button disabled={feedback.length <= 3} className="button is-normal" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );
