@@ -1,17 +1,26 @@
 import React from "react";
 
 type Props = {
-  onSubmit: (feedback: string) => void;
+  onSubmit: (feedback: string) => Promise<void>;
 };
 
 export default function FeedbackForm(props: Props) {
-  function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.target;
+    const form = e.target as HTMLFormElement;
+
     const formData = new FormData(form as HTMLFormElement);
     const feedback = formData.get("feedback") as string;
 
-    props.onSubmit(feedback);
+    // Disable the textarea while we're submitting the feedback
+    const textarea = form.querySelector("textarea") as HTMLTextAreaElement;
+    textarea.disabled = true;
+
+    try {
+      await props.onSubmit(feedback);
+    } finally {
+      textarea.disabled = false;
+    }
   }
 
   return (

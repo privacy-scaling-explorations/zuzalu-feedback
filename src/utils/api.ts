@@ -16,7 +16,7 @@ export function submitFeedback(params: {
     body: JSON.stringify({ sessionId, feedback, nullifierHash, proof })
   }).then((res) => {
     if (res.status === 201) {
-      return res.json();
+      return res;
     } else {
       throw new Error("Error submitting feedback");
     }

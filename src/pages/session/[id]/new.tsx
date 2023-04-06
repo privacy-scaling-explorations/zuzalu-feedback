@@ -26,8 +26,10 @@ export default function NewFeedbackPage(props) {
 
       alert("Your feedback has been submitted. Thank you!");
     } catch (error) {
-      console.error(error);
-      alert("Unexpected error occurred. Please try again later.");
+      if (error) {
+        console.error(error);
+        alert("Unexpected error occurred. Please try again later.");
+      }
     }
   }
 
@@ -36,7 +38,9 @@ export default function NewFeedbackPage(props) {
       <h1 className="session-title">{session.name}</h1>
       <p className="session-description">{session.description}</p>
 
-      <p>You can leave feedback for the Zuzalu session &rdquo;{session.name}&rdquo; anonymously using the below form.</p>
+      <p>
+        You can leave feedback for the Zuzalu session &rdquo;{session.name}&rdquo; anonymously using the below form.
+      </p>
       <p>
         You will be asked to prove you attendance to the event anonymously using the ZuPass before your feedback is
         accepted.

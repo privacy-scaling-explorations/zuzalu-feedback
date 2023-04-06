@@ -62,7 +62,7 @@ export async function generateProofForFeedback(
 
   // Open the popup
   const popupUrl = `/popup?proofUrl=${encodeURIComponent(passportProofUrl)}`;
-  window.open(popupUrl, "_blank", "width=360,height=480,top=100,popup");
+  const popupWindow = window.open(popupUrl, "_blank", "width=360,height=480,top=100,popup");
 
   // Create a promise that resolve on the response from the popup
   return new Promise((resolve, reject) => {
@@ -89,5 +89,13 @@ export async function generateProofForFeedback(
     };
 
     window.addEventListener("message", handler);
+
+    var timer = setInterval(function () {
+      if (popupWindow && popupWindow.closed) {
+        clearInterval(timer);
+        window.removeEventListener("message", handler);
+        reject();
+      }
+    }, 1000);
   });
 }
