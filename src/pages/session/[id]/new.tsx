@@ -1,11 +1,13 @@
-import Head from "next/head";
 import React from "react";
 import FeedbackForm from "../../../components/feedback-form";
 import { generateProofForFeedback } from "../../../utils/pcd";
 import { useRouter } from "next/router";
-import { submitFeedback } from "../../../utils/api";
+import { getSession, submitFeedback } from "../../../utils/api";
+import { GetServerSideProps } from "next";
+import { Session } from "../../../types";
 
-export default function NewFeedbackPage() {
+export default function NewFeedbackPage(props) {
+  const { session } = props;
   const router = useRouter();
   const sessionId = router.query.id as string;
 
@@ -31,13 +33,12 @@ export default function NewFeedbackPage() {
 
   return (
     <div className="content">
-      <h1 className="title">Feedback for {sessionId?.slice(0, 4)}</h1>
+      <h1 className="title">Feedback for {session.name}</h1>
 
+      <p>You can leave feedback for the event {sessionId} anonymously using the below form.</p>
       <p>
-        You can leave feedback for the event {sessionId} anonymously using the below form. 
-      </p>
-      <p>
-        You will be asked to prove you attendance to the event anonymously using the ZuPass before your feedback is accepted.
+        You will be asked to prove you attendance to the event anonymously using the ZuPass before your feedback is
+        accepted.
       </p>
 
       <hr />
@@ -46,3 +47,19 @@ export default function NewFeedbackPage() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{ session: Session }> = async ({ params }) => {
+  const sessionId = params?.id as string;
+
+  if (!sessionId) {
+    throw new Error("SessionId not found in page route");
+  }
+
+  const data = await getSession(sessionId);
+
+  return {
+    props: {
+      session: data
+    }
+  };
+};
