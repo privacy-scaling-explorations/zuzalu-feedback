@@ -33,9 +33,10 @@ export default function NewFeedbackPage(props) {
 
   return (
     <div className="content">
-      <h1 className="title">Feedback for {session.name}</h1>
+      <h1 className="session-title">{session.name}</h1>
+      <p className="session-description">{session.description}</p>
 
-      <p>You can leave feedback for the event {sessionId} anonymously using the below form.</p>
+      <p>You can leave feedback for the Zuzalu session &rdquo;{session.name}&rdquo; anonymously using the below form.</p>
       <p>
         You will be asked to prove you attendance to the event anonymously using the ZuPass before your feedback is
         accepted.

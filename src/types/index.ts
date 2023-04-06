@@ -8,10 +8,9 @@ export type Feedback = {
 
 export type Session = {
   id: number;
-  created_at: string;
   name: string;
-  start_date: string;
-  start_time: string;
+  startDate: string;
+  startTime: string;
   description: string;
   duration: string;
 };
