@@ -1,5 +1,9 @@
 // Import bulma
-@import "../../node_modules/bulma/bulma.sass";
+@import "../../node_modules/bulma/sass/base/_all.sass";
+@import "../../node_modules/bulma/sass/utilities/_all.sass";
+@import "../../node_modules/bulma/sass/form/_all.sass";
+@import "../../node_modules/bulma/sass/elements/button.sass";
+@import "../../node_modules/bulma/sass/helpers/_all.sass";
 
 * {
   box-sizing: border-box;
@@ -27,12 +31,23 @@ main {
 .content {
   background-color: #fff;
   width: 90%;
-  max-width: 600px;
+  max-width: 800px;
   min-height: 500px;
   margin: 2rem auto;
-  padding: 1rem;
+  padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 3px;
+}
+
+.session-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.session-description {
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
 }
 
 .feedback-form {

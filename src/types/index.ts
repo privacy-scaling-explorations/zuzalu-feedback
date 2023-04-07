@@ -5,3 +5,12 @@ export type Feedback = {
   created_at: number;
   nullifier: string;
 };
+
+export type Session = {
+  id: number;
+  name: string;
+  startDate: string;
+  startTime: string;
+  description: string;
+  duration: string;
+};
