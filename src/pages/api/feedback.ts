@@ -23,6 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     case "POST": {
       const { sessionId, feedback, nullifierHash, proof } = req.body;
 
+      console.log("New feedback submitted", { sessionId, feedback, nullifierHash, proof })
+
       let { data } = await supabase.from("feedback").select().eq("nullifier", nullifierHash);
 
       if (data && data.length > 0) {
