@@ -39,7 +39,7 @@ export default function FeedbackForm(props: Props) {
           />
         </div>
 
-        <button disabled={feedback.length <= 3} className="button is-normal" type="submit">
+        <button disabled={feedback.length < 3} className="button is-normal" type="submit">
           Submit
         </button>
       </form>
