@@ -48,7 +48,9 @@ export async function generateProofForFeedback(
   feedback: string,
   sessionId: string
 ): Promise<{
-  nullifierHash: string;
+  claim: {
+    nullifierHash: string;
+  },
   proof: string[];
 }> {
   // Construct the URL to the PCD
@@ -77,9 +79,8 @@ export async function generateProofForFeedback(
           if (pcdResponse.type !== pcdType) return;
 
           const pcdData = JSON.parse(pcdResponse.pcd);
-          const proof = pcdData.proof.proof;
 
-          resolve(proof);
+          resolve(pcdData);
         } catch (error) {
           reject(error);
         } finally {

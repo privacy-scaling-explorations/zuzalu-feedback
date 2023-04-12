@@ -21,7 +21,7 @@ export default function NewFeedbackPage(props: { session: Session }) {
         sessionId,
         feedback,
         proof: fullProof.proof,
-        nullifierHash: fullProof.nullifierHash
+        nullifierHash: fullProof.claim.nullifierHash
       });
 
       alert("Your feedback has been submitted. Thank you!");
