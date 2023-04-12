@@ -6,6 +6,7 @@ type Props = {
 
 export default function FeedbackForm(props: Props) {
   const [feedback, setFeedback] = React.useState<string>("");
+  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
 
   async function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -16,9 +17,11 @@ export default function FeedbackForm(props: Props) {
     textarea.disabled = true;
 
     try {
+      setIsSubmitting(true);
       await props.onSubmit(feedback);
     } finally {
       textarea.disabled = false;
+      setIsSubmitting(false);
     }
   }
 
@@ -39,7 +42,11 @@ export default function FeedbackForm(props: Props) {
           />
         </div>
 
-        <button disabled={feedback.length < 3} className="button is-normal" type="submit">
+        <button
+          disabled={feedback.length < 3}
+          className={"button is-normal" + (isSubmitting ? " is-loading" : '')}
+          type="submit"
+        >
           Submit
         </button>
       </form>
