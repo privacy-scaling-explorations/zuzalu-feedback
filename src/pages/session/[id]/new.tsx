@@ -6,7 +6,7 @@ import { getSession, submitFeedback } from "../../../utils/api";
 import { GetServerSideProps } from "next";
 import { Session } from "../../../types";
 
-export default function NewFeedbackPage(props) {
+export default function NewFeedbackPage(props: { session: Session }) {
   const { session } = props;
   const router = useRouter();
   const sessionId = router.query.id as string;
