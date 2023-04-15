@@ -5,50 +5,57 @@ import { verifyProof } from "@semaphore-protocol/proof";
 import { id as hash } from "@ethersproject/hash";
 import { Group } from "@semaphore-protocol/group";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Feedback[]>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET": {
-      const { sessionId } = req.query;
+      try {
+        const { sessionId } = req.query;
 
-      let { data } = await supabase.from("feedback").select().eq("session_id", sessionId);
+        let { data } = await supabase.from("feedback").select().eq("session_id", sessionId);
 
-      if (!data || !Array.isArray(data)) {
-        throw new Error("DB data does not exist");
+        if (!data || !Array.isArray(data)) {
+          throw new Error("DB data does not exist");
+        }
+
+        res.status(200).json(data as Feedback[]);
+      } catch (error) {
+        res.status(500).json({ error: (error as Error).message });
       }
-
-      res.status(200).json(data as Feedback[]);
 
       break;
     }
     case "POST": {
-      const { sessionId, feedback, nullifierHash, proof } = req.body;
+      try {
+        const { sessionId, feedback, nullifierHash, proof } = req.body;
 
-      console.log("New feedback submitted", { sessionId, feedback, nullifierHash, proof })
+        console.log("New feedback submitted", { sessionId, feedback, nullifierHash, proof });
 
-      let { data } = await supabase.from("feedback").select().eq("nullifier", nullifierHash);
+        let { data } = await supabase.from("feedback").select().eq("nullifier", nullifierHash);
 
-      if (data && data.length > 0) {
-        throw new Error("Nullifier has already been used");
+        if (data && data.length > 0) {
+          throw new Error("Nullifier has already been used");
+        }
+
+        const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_URL as string);
+        const { id, depth, members } = await response.json();
+
+        const group = new Group(id, depth);
+
+        group.addMembers(members);
+
+        const merkleTreeRoot = BigInt(group.root);
+        const signal = BigInt(hash(feedback));
+
+        await verifyProof({ merkleTreeRoot, nullifierHash, externalNullifier: sessionId, signal, proof }, 20);
+
+        const { status } = await supabase
+          .from("feedback")
+          .insert({ message: feedback, session_id: sessionId, nullifier: nullifierHash } as Feedback);
+
+        res.status(status).end();
+      } catch (error) {
+        res.status(500).json({ error: (error as Error).message });
       }
-
-      const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_URL as string);
-      const { id, depth, members } = await response.json();
-
-      const group = new Group(id, depth);
-
-      group.addMembers(members);
-
-      const merkleTreeRoot = BigInt(group.root);
-      const signal = BigInt(hash(feedback));
-
-      await verifyProof({ merkleTreeRoot, nullifierHash, externalNullifier: sessionId, signal, proof }, 20);
-
-      const { status } = await supabase
-        .from("feedback")
-        .insert({ message: feedback, session_id: sessionId, nullifier: nullifierHash } as Feedback);
-
-      res.status(status).end();
-
       break;
     }
     default:
