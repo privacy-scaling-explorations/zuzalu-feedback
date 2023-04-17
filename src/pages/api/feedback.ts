@@ -1,9 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import pino from "pino";
 import supabase from "@/lib/supabaseClient";
 import { Feedback } from "@/types";
 import { verifyProof } from "@semaphore-protocol/proof";
 import { id as hash } from "@ethersproject/hash";
 import { Group } from "@semaphore-protocol/group";
+
+const logger = pino();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -28,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const { sessionId, feedback, nullifierHash, proof } = req.body;
 
-        console.log("New feedback submitted", { sessionId, feedback, nullifierHash, proof });
+        logger.info("New feedback submitted", { sessionId, feedback, nullifierHash, proof });
 
         let { data } = await supabase.from("feedback").select().eq("nullifier", nullifierHash);
 
@@ -36,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           throw new Error("Nullifier has already been used");
         }
 
-        console.log("Fetching group...");
+        logger.info("Fetching group...");
 
         const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_URL as string);
         const { id, depth, members } = await response.json();
@@ -48,19 +51,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const merkleTreeRoot = BigInt(group.root);
         const signal = BigInt(hash(feedback));
 
-        console.log("Verifying proof...");
+        logger.info("Verifying proof...");
 
         await verifyProof({ merkleTreeRoot, nullifierHash, externalNullifier: sessionId, signal, proof }, 20);
+
+        logger.info("Proof verified.");
 
         const { status } = await supabase
           .from("feedback")
           .insert({ message: feedback, session_id: sessionId, nullifier: nullifierHash } as Feedback);
 
-        console.log("Feedback saved to database");
+        logger.info("Feedback saved to database");
 
         res.status(status).end();
       } catch (error) {
-        console.error(error);
+        logger.error(error);
 
         res.status(500).json({ error: (error as Error).message });
       }
