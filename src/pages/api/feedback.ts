@@ -36,6 +36,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           throw new Error("Nullifier has already been used");
         }
 
+        console.log("Fetching group...");
+
         const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_URL as string);
         const { id, depth, members } = await response.json();
 
@@ -46,14 +48,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const merkleTreeRoot = BigInt(group.root);
         const signal = BigInt(hash(feedback));
 
+        console.log("Verifying proof...");
+
         await verifyProof({ merkleTreeRoot, nullifierHash, externalNullifier: sessionId, signal, proof }, 20);
 
         const { status } = await supabase
           .from("feedback")
           .insert({ message: feedback, session_id: sessionId, nullifier: nullifierHash } as Feedback);
 
+        console.log("Feedback saved to database");
+
         res.status(status).end();
       } catch (error) {
+        console.error(error);
+
         res.status(500).json({ error: (error as Error).message });
       }
       break;
