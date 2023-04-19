@@ -35,11 +35,9 @@ export default function NewFeedbackPage(props: { session: Session }) {
 
   return (
     <div className="content">
-      <h1 className="session-title">{session.name}</h1>
+      <h1 className="title">{session.name}</h1>
 
-      <p className="feedback-description">
-        What feedback would you like to share anonymously with the event organizers?
-      </p>
+      <p className="description">What feedback would you like to share anonymously with the event organizers?</p>
 
       <FeedbackForm onSubmit={onFeedbackSubmit} />
     </div>
