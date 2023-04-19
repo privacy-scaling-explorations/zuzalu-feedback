@@ -5,7 +5,7 @@
   "scope": "/",
   "start_url": "/",
   "name": "Zuzalu Feedback",
-  "short_name": "Zufeedback",
+  "short_name": "ZuFeedback",
   "description": "An app to allow Zuzalu attendees to send anonymous feedback.",
   "icons": [
     {
