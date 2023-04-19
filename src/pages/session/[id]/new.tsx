@@ -33,8 +33,6 @@ export default function NewFeedbackPage(props: { session: Session }) {
     }
   }
 
-  console.log(session);
-
   return (
     <div className="content">
       <h1 className="session-title">{session.name}</h1>
