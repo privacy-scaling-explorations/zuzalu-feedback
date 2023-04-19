@@ -29,25 +29,25 @@ export default function FeedbackForm(props: Props) {
     <div>
       <form className="feedback-form" onSubmit={onFormSubmit}>
         <div className="field">
-          <label className="label" htmlFor="feedback">
-            Feedback
-          </label>
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             className="input"
-            rows={100}
+            placeholder="Type here"
+            maxLength={2000}
+            rows={300}
             id="feedback"
             name="feedback"
           />
+          <p>Max. 2000 characters</p>
         </div>
 
         <button
           disabled={feedback.length < 3}
-          className={"button is-normal" + (isSubmitting ? " is-loading" : '')}
+          className={"button is-primary" + (isSubmitting ? " is-loading" : "")}
           type="submit"
         >
-          Submit
+          SHARE
         </button>
       </form>
     </div>

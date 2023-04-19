@@ -1,3 +1,5 @@
+$primary: #35655f;
+
 // Import bulma
 @import "../../node_modules/bulma/sass/base/_all.sass";
 @import "../../node_modules/bulma/sass/utilities/_all.sass";
@@ -29,14 +31,10 @@ main {
 }
 
 .content {
-  background-color: #fff;
   width: 90%;
   max-width: 800px;
   min-height: 500px;
   margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 3px;
 }
 
 .session-title {
@@ -45,14 +43,26 @@ main {
   margin-bottom: 0;
 }
 
-.session-description {
-  font-size: 0.8rem;
-  margin-bottom: 2rem;
+.feedback-description {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .feedback-form {
   textarea {
-    height: 300px;
+    height: 350px;
+  }
+
+  p {
+    text-align: right;
+    color: $grey-light;
+    margin-top: 0.5rem;
+  }
+
+  button {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 1rem;
   }
 }
 
