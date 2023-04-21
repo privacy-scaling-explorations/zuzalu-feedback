@@ -23,7 +23,7 @@ export function submitFeedback(params: {
   });
 }
 
-export function getSession(sessionId: string) : Promise<Session> {
+export function getSession(sessionId: string): Promise<Session> {
   return fetch(`${process.env.NEXT_PUBLIC_ZUZALU_API}public/sessions/${sessionId}`, {
     method: "GET",
     headers: {

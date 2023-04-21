@@ -24,7 +24,7 @@ export default function NewFeedbackPage(props: { session: Session }) {
         nullifierHash: fullProof.claim.nullifierHash
       });
 
-      alert("Your feedback has been submitted. Thank you!");
+      window.location.replace("/thank-you");
     } catch (error) {
       if (error) {
         console.error(error);
@@ -37,7 +37,10 @@ export default function NewFeedbackPage(props: { session: Session }) {
     <div className="content">
       <h1 className="title">{session.name}</h1>
 
-      <p className="description">What feedback would you like to share anonymously with the event organizers?</p>
+      <p className="description">
+        What feedback would you like to share anonymously with the event organizers? Please be aware that it is not
+        possible to share more than one feedback for the same session.
+      </p>
 
       <FeedbackForm onSubmit={onFeedbackSubmit} />
     </div>
