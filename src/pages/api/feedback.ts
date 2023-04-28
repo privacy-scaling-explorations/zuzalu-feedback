@@ -41,14 +41,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         logger.info("Fetching group...");
 
-        const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_URL as string);
-        const { id, depth, members } = await response.json();
+        const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_ROOT_URL as string);
 
-        const group = new Group(id, depth);
-
-        group.addMembers(members);
-
-        const merkleTreeRoot = BigInt(group.root);
+        const merkleTreeRoot = BigInt(await response.text());
         const signal = BigInt(hash(feedback));
 
         logger.info("Verifying proof...");
