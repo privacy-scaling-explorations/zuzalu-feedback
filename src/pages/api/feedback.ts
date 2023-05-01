@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const response = await fetch(process.env.NEXT_PUBLIC_ZUZALU_SEMAPHORE_GROUP_ROOT_URL as string);
 
-        const merkleTreeRoot = BigInt(await response.text());
+        const merkleTreeRoot = BigInt(await response.json());
         const signal = BigInt(hash(feedback));
 
         logger.info("Verifying proof...");
